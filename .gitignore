@@ -1,0 +1,4 @@
+*.bmp
+TestingFiles/*.*
+__pycache__/*.*
+Ass2-22.pdf

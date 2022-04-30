@@ -1,0 +1,14 @@
+01000110
+   ||
+01000111
+   ||
+1
+
+first 24 didgets are for length of file
+1111 1111 1111 1111 1111 1111 = 16,777,215
+= 8 pixels...
+
+2,097,151 characters apx.
+
+hidden message gets read in bytes => bytes are then encoded and turned to hex => hex is then turned to binary
+=> binary is added to cover image via LSD steganography => coverimage is written to file.
