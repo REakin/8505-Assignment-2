@@ -11,7 +11,7 @@ def load_image(path):
 
 #load hidden image
 def load_hidden_image(path):
-    with open('Hidden.bmp', 'rb') as f:
+    with open(path, 'rb') as f:
         img = f.read()
         return img
 

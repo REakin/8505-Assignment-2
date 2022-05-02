@@ -16,7 +16,7 @@ def decrypt(ciphertext, key):
     # print(key)
     cipher = DES3.new(key, DES3.MODE_CBC, b'\xb3\xee#\x97\x99u\xde\xb9')
     plaintext = cipher.decrypt(ciphertext)
-    print(cipher.iv)
+    # print(cipher.iv)
     return plaintext
 
 def encrypt(plaintext):
@@ -47,11 +47,10 @@ def length(binstr):
     l = len(binstr)
     #convert to 24 didget binary
     l = bin(l)[2:].zfill(24)
-    print(l)
+    # print(l)
     #if l is greater than 24, then return error
     if len(l) > 24:
         raise Exception('Length of binary string is greater than 24')
-        return
     return l
 
 def encode_image(img, binstr):
@@ -72,9 +71,9 @@ def encode_image(img, binstr):
                     bine = ''.join(bine)
                     j[k] = int(bine, 2)
                     # print("values left: " + str(len(binstr)))
-                except:
-                    print("error")
+                except IndexError:
                     return img
+                    
     return img
 
 def decode_image(img):

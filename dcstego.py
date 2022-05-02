@@ -38,6 +38,51 @@ def read_key(filename):
     f.close()
     return key
 
+def check_args(args):
+    if args.encode and args.decode:
+        print("Error: cannot encode and decode at the same time.")
+        exit(1)
+    if not args.encode and not args.decode:
+        print("Error: must encode or decode.")
+        exit(1)
+    if args.encode and not args.cover:
+        print("Error: must specify a cover image.")
+        exit(1)
+    if args.encode and not args.hidden:
+        print("Error: must specify a hidden image.")
+        exit(1)
+    if args.decode and not args.key:
+        print("Error: must specify a key.")
+        exit(1)
+    if args.decode and not args.hidden:
+        print("Error: must specify a hidden image.")
+        exit(1)
+    if args.cover and not os.path.isfile(args.cover):
+        print("Error: cover image does not exist.")
+        exit(1)
+    if args.hidden and not os.path.isfile(args.hidden):
+        print("Error: hidden image does not exist.")
+        exit(1)
+    if args.key and not os.path.isfile(args.key):
+        print("Error: key file does not exist.")
+        exit(1)
+    if args.output and os.path.isfile(args.output):
+        print("Error: output file already exists.")
+        exit(1)
+    if args.output and not args.output.endswith('.bmp'):
+        print("Error: output file must be a .bmp file.")
+        exit(1)
+    if args.cover and not args.cover.endswith('.bmp'):
+        print("Error: cover file must be a .bmp file.")
+        exit(1)
+    if args.hidden and not args.hidden.endswith('.bmp'):
+        print("Error: hidden file must be a .bmp file.")
+        exit(1)
+    if args.key and not args.key.endswith('.txt'):
+        print("Error: key file must be a .txt file.")
+        exit(1)
+
+
 def main(args):
     #load image
     cover = dcimage.load_image(args.cover)
@@ -51,15 +96,21 @@ def main(args):
     binstr = dcutils.str2bin(ciphertext)
     # get length of binary string
     l = dcutils.length(binstr)
-    print(l)
+    # print(l)
     # combine length and binary string
     binstr = l + binstr
     # encode binary to image
     print("encoding")
     img = dcutils.encode_image(cover, binstr)
+
     # save image
     print("Saving image")
-    dcimage.save_image(args.output, img)
+    if args.output:
+        dcimage.save_image(str(args.output), img)
+        print("Saved image to :", args.output)
+    else:
+        dcimage.save_image('output.bmp', img)
+        print("Saved image to :", 'output.bmp')
 
 def main2(args):
     #load image
@@ -80,15 +131,14 @@ def main2(args):
         f.write(plaintext)
     print("Saved image to :", f.name)
 
-
-    
-
 if __name__ == '__main__':
     #read flags
     args = parser.parse_args()
     if args.encode:
+        check_args(args)
         main(args)
     elif args.decode:
+        check_args(args)
         main2(args)
     else:
         print("Please specify an action.")
